@@ -1,0 +1,50 @@
+---
+layout: runbook
+title: '#4471 · split — two date problems, not one'
+owner: harness
+status: draft
+reviewed: 2026-10-29
+signature: v1.eyJzdWIiOiI2NzY4IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMzMDM3NzIsImV4cCI6MTc5MzM5MDE3Mn0.hUFgYgs0MXDG-NRYIKiyCf22FYt8AkaQgREV0SzYM88
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  // frontmatter `signature` (mdsvex) — course ticket for this page
+  export let signature;
+</script>
+
+Ticket **#4471** was marked known as one parser bug. The merged reports hold **two**
+causes. This page records the split and the desk tickets opened for each.
+
+<Callout>
+Not one issue. Two causes under the same merge: <code>parser</code> (379) and
+<code>hint</code> (33).
+</Callout>
+
+## What was merged
+
+<CauseTable ticket={4471} />
+
+## Desk tickets
+
+| cause | reports | ticket |
+| --- | ---: | --- |
+| `parser` — shared parser reads month-first for day-first tenants | 379 | [#1](https://github.com/mateusz-c/mega-course-lesson/issues/1) |
+| `hint` — booking-v3 prints `MM/DD/YYYY` while the form reads day-first | 33 | [#2](https://github.com/mateusz-c/mega-course-lesson/issues/2) |
+
+## Why the merge was wrong
+
+Decision [0001](/kb/decisions/0001-dedupe-by-subject) merges on subject alone. Many
+subjects look like the same date bug, so intake filed both causes into #4471. The
+cause depends on the tenant's locale and booking form (`#lib/kb/causes`), not the
+subject line.
+
+## Next
+
+Engineering owns two fixes. Keep #4471 closed as a merge artifact; work the two
+tickets above.
+
+<RenderStamp {signature} />
